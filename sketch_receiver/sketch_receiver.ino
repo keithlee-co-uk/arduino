@@ -1,13 +1,20 @@
 #include <RH_ASK.h>
-#include <SPI.h> // Not actually used but needed to compile
+#include <SPI.h> // Not actualy used but needed to compile
 
-RH_ASK driver;  // rxPin = 11
+RH_ASK driver(1000); // rxPin 11
 
 void setup()
 {
-    Serial.begin(9600);	// Debugging only
-    driver.init();
-
+  Serial.begin(9600);	// Debugging only
+  delay(2000);
+  if (!driver.init())
+    Serial.println("init failed");
+  else
+    Serial.println("init success");
+  
+  driver.setModeRx();
+  Serial.print("Speed: ");Serial.println(driver.speed());
+  Serial.print("Mode: ");Serial.println(driver.mode());
 }
 
 void loop()
@@ -15,10 +22,5 @@ void loop()
   uint8_t buf[12];
   uint8_t buflen = sizeof(buf);
   if (driver.recv(buf, &buflen)) // Non-blocking
-    {
-      // Message with a good checksum received, dump it.
-      Serial.print("Message: ");
-      Serial.println((char*)buf);         
-    }
-   
+    Serial.println((char*)buf);
 }
