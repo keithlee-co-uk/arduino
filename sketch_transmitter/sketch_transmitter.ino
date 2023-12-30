@@ -7,10 +7,10 @@ void setup()
 {
   Serial.begin(9600);	  // Debugging only
   delay(2000);
-  // if (!driver.init())
-  //   Serial.println("init failed");
-  //  else
-  //   Serial.println("init success");
+  if (!driver.init())
+    Serial.println("init failed");
+   else
+    Serial.println("init success");
   
   // driver.setModeTx();
   // Serial.print("Speed: ");Serial.println(driver.speed());
@@ -20,7 +20,7 @@ void setup()
 void loop()
 {
   const char *msg = "Hello World!";
-  // driver.send((uint8_t *)msg, strlen(msg));
-  // driver.waitPacketSent();
+  driver.send((uint8_t *)msg, strlen(msg));
+  driver.waitPacketSent();
   delay(1000);
 }
